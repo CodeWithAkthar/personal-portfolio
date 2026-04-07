@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shuhaib Akthar — Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #181818;
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.15);
+      --text: #f0ede8;
+      --muted: #888880;
+      --accent: #c8f060;
+      --accent2: #60f0c8;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      border-bottom: 0.5px solid var(--border);
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 5.75rem 4rem 3.75rem;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 80%);
+    }
+
+    .hero > *:not(.hero-grid-bg) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    .hero-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      max-width: 14ch;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-heading .accent {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 52ch;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-primary {
+      padding: 0.75rem 1.75rem;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      padding: 0.75rem 1.75rem;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      border: 0.5px solid var(--border2);
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .hero-socials {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-socials a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      padding: 0.45rem 0.7rem;
+      border: 0.5px solid var(--border);
+      border-radius: 999px;
+      background: rgba(10, 10, 10, 0.35);
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+      pointer-events: auto;
+    }
+
+    .hero-socials a:hover {
+      color: var(--text);
+      border-color: var(--border2);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 4rem;
+      bottom: 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: right;
+      pointer-events: none;
+    }
+
+    .stat-item .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-item .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+    }
+
+    #about {
+      padding-top: 1.25rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-num {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+      margin-left: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1.05rem;
+      color: #bbb8b2;
+      font-weight: 300;
+      line-height: 1.85;
+    }
+
+    .about-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      padding: 0.35rem 0.85rem;
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.8rem;
+      color: #aaa;
+      letter-spacing: 0.03em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+    }
+
+    .project-card {
+      background: var(--bg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: background 0.2s;
+    }
+
+    .project-card:hover {
+      background: var(--bg3);
+    }
+
+    .project-num {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .project-tag {
+      padding: 0.2rem 0.6rem;
+      background: rgba(200, 240, 96, 0.07);
+      border: 0.5px solid rgba(200, 240, 96, 0.2);
+      border-radius: 2px;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 0.5px solid var(--border);
+      margin-top: auto;
+    }
+
+    .project-link {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--text);
+    }
+
+    .project-link .arrow {
+      font-size: 10px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 0.5px solid var(--border);
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 220px 1fr auto;
+      gap: 2rem;
+      padding: 2rem 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+      align-items: start;
+      transition: background 0.2s;
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+    }
+
+    .exp-item:hover {
+      background: var(--bg3);
+    }
+
+    .exp-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      padding-top: 0.2rem;
+    }
+
+    .exp-role {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-company {
+      font-size: 0.875rem;
+      color: var(--accent2);
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .exp-points li {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 300;
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .exp-points li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border2);
+    }
+
+    .exp-badge {
+      padding: 0.25rem 0.75rem;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+
+    .exp-badge.current {
+      border-color: rgba(200, 240, 96, 0.3);
+      color: var(--accent);
+      background: rgba(200, 240, 96, 0.05);
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+    }
+
+    .contact-heading .accent {
+      color: var(--accent);
+    }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 0.15rem;
+      letter-spacing: 0.02em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-email:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border: 0.5px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .contact-link-item:hover {
+      border-color: var(--border2);
+      background: var(--bg3);
+    }
+
+    .contact-link-item .link-label {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.03em;
+    }
+
+    .contact-link-item .link-handle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .contact-link-item .link-arrow {
+      color: var(--muted);
+      font-size: 0.85rem;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .contact-link-item:hover .link-arrow {
+      transform: translate(3px, -3px);
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        min-height: 92svh;
+        padding: 5.5rem 1.5rem 3.25rem;
+      }
+
+      #about {
+        padding-top: 1.1rem;
+      }
+
+      .hero-stats {
+        display: none;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exp-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-heading {
+        font-size: 2.6rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-name" href="#top">Shuhaib Akthar</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-label">Available for remote roles · Based in Kerala, India</div>
+    <h1 class="hero-heading">
+      Full Stack<br>Developer<br>building <span class="accent">scalable</span><br>MERN apps.
+    </h1>
+    <p class="hero-sub">
+      1.5+ years shipping production applications used by 300+ users.<br>
+      Specialized in REST APIs, microservices, and high-performance frontends.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Contact Me</a>
+      <a
+        href="assets/shuhaib-akthar-mern-developer-cv.pdf"
+        download="shuhaib-akthar-mern-developer-cv.pdf"
+        class="btn-outline">
+        Download CV ↓
+      </a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://www.linkedin.com/in/shuhaibakthar/" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+        linkedin.com/in/shuhaibakthar
+      </a>
+      <a href="https://github.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+        </svg>
+        github.com/CodeWithAkthar
+      </a>
+      <a href="https://x.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.7L5.6 22H2.5l7.3-8.4L2 2h6.8l4.7 6.1L18.9 2zm-1.2 18h1.7L7.9 3.9H6.1L17.7 20z" />
+        </svg>
+        x.com/CodeWithAkthar
+      </a>
+      <a href="https://www.instagram.com/akthargk/" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18 6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" />
+        </svg>
+        instagram.com/akthargk
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">300<span style="color:var(--accent)">+</span></div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1.5<span style="color:var(--accent)">yr</span></div>
+        <div class="stat-label">Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">95<span style="color:var(--accent)">%+</span></div>
+        <div class="stat-label">Page Speed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-layout">
+      <div class="about-text reveal">
+        <p style="margin-bottom:1.25rem">
+          I'm a <strong>Full Stack Developer</strong> with 1.5+ years of experience building and shipping production
+          MERN applications. I specialize in crafting performant frontends and robust backend systems — from RESTful
+          APIs to event-driven microservices.
+        </p>
+        <p style="margin-bottom:1.25rem">
+          I've worked across startups and freelance projects, leading <strong>2 major production releases</strong>,
+          mentoring <strong>50+ student developers</strong>, and optimizing sites to <strong>95%+ page speed
+            scores</strong> with full SEO compliance.
+        </p>
+        <p>
+          Currently pursuing my <strong>MCA at IGNOU</strong> while working full-time. Open to remote roles globally and
+          willing to relocate for the right opportunity.
+        </p>
+      </div>
+      <div class="reveal" style="animation-delay:0.1s">
+        <p
+          style="font-size:0.8rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">
+          Tech Stack</p>
+        <div class="skills-grid">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Next.js</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Redux Toolkit</span>
+          <span class="skill-tag">Zustand</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">RabbitMQ</span>
+          <span class="skill-tag">Supabase</span>
+          <span class="skill-tag">AWS EC2/S3</span>
+          <span class="skill-tag">Nginx</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">WebSockets</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">JWT / OAuth 2.0</span>
+          <span class="skill-tag">Tailwind CSS</span>
+          <span class="skill-tag">CI/CD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding-top:0;">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid reveal">
+
+      <div class="project-card">
+        <div class="project-num">PROJECT / 01</div>
+        <div class="project-name">Speeki</div>
+        <p class="project-desc">Real-time AI voice tutor with full STT → LLM → TTS pipeline. Multi-provider AI system
+          using OpenAI Whisper, Deepgram, and Azure STT with ultra-low latency audio streaming.</p>
+        <div class="project-tags">
+          <span class="project-tag">React</span>
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">TypeScript</span>
+          <span class="project-tag">Socket.io</span>
+          <span class="project-tag">GPT-4</span>
+          <span class="project-tag">Azure Speech</span>
+          <span class="project-tag">FFmpeg</span>
+        </div>
+        <div class="project-links">
+          <a href="https://speeki-chat.trogon.info/" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PROJECT / 02</div>
+        <div class="project-name">POS System</div>
+        <p class="project-desc">Multi-tenant point of sale REST API for restaurants and retail chains. Role-based
+          access, full order lifecycle, payment settlement (cash/card/UPI), and production observability.</p>
+        <div class="project-tags">
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">Express.js</span>
+          <span class="project-tag">TypeScript</span>
+          <span class="project-tag">MongoDB</span>
+          <span class="project-tag">AWS S3</span>
+          <span class="project-tag">JWT</span>
+          <span class="project-tag">Prometheus</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/CodeWithAkthar/MyPOS" target="_blank" rel="noopener noreferrer" class="project-link">GitHub <span
+              class="arrow">↗</span></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PROJECT / 03</div>
+        <div class="project-name">Healix</div>
+        <p class="project-desc">Microservices nutrition e-commerce platform with API Gateway, event-driven workflows,
+          and 4 independent services for user, catalog, order, and admin.</p>
+        <div class="project-tags">
+          <span class="project-tag">Next.js</span>
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">Redis</span>
+          <span class="project-tag">RabbitMQ</span>
+          <span class="project-tag">DynamoDB</span>
+          <span class="project-tag">Elasticsearch</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/CodeWithAkthar/Healix" target="_blank" rel="noopener noreferrer" class="project-link">GitHub <span
+              class="arrow">↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" style="padding-top:0;">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-list reveal">
+
+      <div class="exp-item">
+        <div class="exp-date">Aug 2025 — Present</div>
+        <div>
+          <div class="exp-role">Full Stack Developer</div>
+          <div class="exp-company">DevXtra Pvt Ltd</div>
+          <ul class="exp-points">
+            <li>Shipped 3 production MERN applications now serving 300+ active users</li>
+            <li>Collaborated in a 6-member team across 10+ client meetings</li>
+            <li>Managed 2 major releases and mentored 50+ student developers</li>
+          </ul>
+        </div>
+        <div class="exp-badge current">Current</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">Mar 2025 — Jul 2025</div>
+        <div>
+          <div class="exp-role">React.js Developer</div>
+          <div class="exp-company">Trogon Media Pvt Ltd</div>
+          <ul class="exp-points">
+            <li>Built 4 features across 5+ React apps including an AI voice agent</li>
+            <li>Optimized 3 sites to 95%+ page speed with full SEO compliance</li>
+            <li>Sole frontend developer on 2 projects, managing full architecture</li>
+          </ul>
+        </div>
+        <div class="exp-badge">5 months</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">May 2024 — Feb 2025</div>
+        <div>
+          <div class="exp-role">Full Stack Developer</div>
+          <div class="exp-company">Unicolleagues Marketing Agency · Freelance</div>
+          <ul class="exp-points">
+            <li>Designed and deployed 4 client websites for local businesses</li>
+            <li>Implemented Razorpay payments, JWT auth, and admin dashboards</li>
+            <li>Managed complete project lifecycle from requirements to launch</li>
+          </ul>
+        </div>
+        <div class="exp-badge">10 months</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="reveal">
+        <div class="section-num" style="margin-bottom:1rem">04 / Contact</div>
+        <h2 class="contact-heading">Let's build<br>something <span class="accent">great.</span></h2>
+        <p class="contact-sub">
+          Open to remote full-time roles, freelance projects, and interesting collaborations. Drop me a message and I'll
+          get back to you quickly.
+        </p>
+        <a href="mailto:shuhaibakthar211@gmail.com" class="contact-email">
+          shuhaibakthar211@gmail.com ↗
+        </a>
+      </div>
+      <div class="contact-links reveal" style="animation-delay:0.1s">
+        <a href="https://www.linkedin.com/in/shuhaibakthar/" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+          <div>
+            <div class="link-label">LinkedIn</div>
+            <div class="link-handle">linkedin.com/in/shuhaibakthar</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="https://github.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+          <div>
+            <div class="link-label">GitHub</div>
+            <div class="link-handle">github.com/CodeWithAkthar</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="mailto:shuhaibakthar211@gmail.com" class="contact-link-item">
+          <div>
+            <div class="link-label">Email</div>
+            <div class="link-handle">shuhaibakthar211@gmail.com</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="tel:+917034774900" class="contact-link-item">
+          <div>
+            <div class="link-label">Phone</div>
+            <div class="link-handle">+91 70347 74900</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="https://wa.me/917034774900" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+          <div>
+            <div class="link-label">WhatsApp</div>
+            <div class="link-handle">wa.me/917034774900</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="https://x.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+          <div>
+            <div class="link-label">X (Twitter)</div>
+            <div class="link-handle">x.com/CodeWithAkthar</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+        <a href="https://www.instagram.com/akthargk/" target="_blank" rel="noopener noreferrer" class="contact-link-item">
+          <div>
+            <div class="link-label">Instagram</div>
+            <div class="link-handle">instagram.com/akthargk</div>
+          </div>
+          <span class="link-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-text">© 2025 Shuhaib Akthar. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="https://github.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/shuhaibakthar/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/CodeWithAkthar" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://www.instagram.com/akthargk/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="mailto:shuhaibakthar211@gmail.com">Email</a>
+      <a href="tel:+917034774900">Call</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+
+</html>

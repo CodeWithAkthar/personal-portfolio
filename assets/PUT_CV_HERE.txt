@@ -1,0 +1,6 @@
+Put your resume PDF in this folder and name it:
+
+  shuhaib-akthar-mern-developer-cv.pdf
+
+Then the "Download CV" button on the website will download it.
+
